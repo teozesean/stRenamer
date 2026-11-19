@@ -155,10 +155,34 @@ cmds.separator(st='none', h=10, p='PrefixSuffix_col00')
 cmds.columnLayout('SR_col00', p='renameTool_col00')
 cmds.frameLayout(label='Search  &  Replace',h=20, w=420, p='SR_col00')
 cmds.separator(st='none', h= 15, p='SR_col00')
-cmds.textFieldGrp ('Search_tf00', label = ' Search for : ', text = '', tcc=refresh_new_name, cw2 = [95, 255], p='SR_col00') 
+cmds.rowColumnLayout(
+    'Search_row00',
+    numberOfColumns=3,
+    columnWidth=[(1, 350), (2, 8), (3, 62)],
+    p='SR_col00',
+)
+cmds.textFieldGrp(
+    'Search_tf00',
+    label=' Search for : ',
+    text='',
+    tcc=refresh_new_name,
+    cw2=[95, 255],
+    p='Search_row00',
+)
+cmds.separator(
+    style='none',
+    width=8,
+    parent='Search_row00',
+)
+cmds.checkBox(
+    'refer_checkbox00',
+    label=' Refer',
+    value=False,
+    parent='Search_row00',
+    width=62,
+)
 cmds.separator(st='none', h= 10, p='SR_col00')
 cmds.textFieldGrp ('Replace_tf00', label = ' Replace with : ', text = '', tcc=refresh_new_name, cw2 = [95, 255], p='SR_col00')
-cmds.checkBox('refer_checkbox00', label=" Refer", value=False, parent="SR_col00")
 cmds.separator(st='none', h= 15, p='SR_col00')
 cmds.button('Variable_btn01', l='Replace',w=420,h=40,bgc=(0.3,0.5,0.5),c=replace_name, p='SR_col00')
 

@@ -29,7 +29,7 @@ Importing or reloading the UI module builds the window. `show_rename_tool()` sho
 
 The Hierarchy category walks selected transform roots and their transform children in parent-first order. Sequence numbers follow that order, while Maya rename calls run child-first so renaming a parent does not invalidate the stored full paths of its descendants.
 
-The All category reads all transform nodes directly and does not change Maya's current selection.
+The All category reads transform nodes directly, excludes Maya's default cameras (`|front`, `|persp`, `|side`, and `|top`), and does not change the current selection.
 
 ## Review notes
 

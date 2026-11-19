@@ -13,6 +13,10 @@ from typing import Callable, Iterable, Sequence
 
 import maya.cmds as cmds
 
+DEFAULT_CAMERA_TRANSFORMS = frozenset(
+    {"|front", "|persp", "|side", "|top"}
+)
+
 
 class RenameMode(str, Enum):
     NONE = "none"
@@ -235,7 +239,11 @@ def get_objects_for_category(category: int) -> list[str]:
         return get_hierarchy_objects()
 
     if category == 3:
-        return cmds.ls(type="transform", long=True) or []
+        transforms = cmds.ls(type="transform", long=True) or []
+        return [
+            obj for obj in transforms
+            if obj not in DEFAULT_CAMERA_TRANSFORMS
+        ]
 
     if category == 4:
         return get_duplicate_objects()

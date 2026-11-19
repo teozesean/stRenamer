@@ -213,7 +213,7 @@ class MockCmds(types.ModuleType):
         self.control_parents.clear()
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 MAYA_SOURCE = ROOT / "Maya"
 
 maya = types.ModuleType("maya")
@@ -631,7 +631,7 @@ class CallbackAndPreviewTests(unittest.TestCase):
 
     def test_ui_imports_and_all_callbacks_accept_maya_arguments(self):
         ui = importlib.import_module("stRenamer_UI")
-        self.assertEqual(cmds.control_parents["refer_checkbox00"], "SR_col00")
+        self.assertEqual(cmds.control_parents["refer_checkbox00"], "Search_row00")
         callback_names = [
             "reset_to_default",
             "refresh_current_name",
