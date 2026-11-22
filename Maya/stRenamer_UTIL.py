@@ -298,16 +298,20 @@ def _rename_objects(
     objects: Sequence[str],
     name_factory: Callable[[int, str], str],
 ) -> list[str]:
-    """Rename parent-first input in child-first order and retain sequence indices."""
+    """Rename a batch as one undoable action, retaining sequence indices."""
     renamed: list[str] = []
     original_positions = {obj: index for index, obj in enumerate(objects)}
 
-    for obj in deepest_first(objects):
-        index = original_positions[obj]
-        try:
-            renamed.append(cmds.rename(obj, name_factory(index, obj)))
-        except RuntimeError as error:
-            cmds.warning(f"Could not rename '{obj}': {error}")
+    cmds.undoInfo(openChunk=True, chunkName="stRenamer Rename")
+    try:
+        for obj in deepest_first(objects):
+            index = original_positions[obj]
+            try:
+                renamed.append(cmds.rename(obj, name_factory(index, obj)))
+            except RuntimeError as error:
+                cmds.warning(f"Could not rename '{obj}': {error}")
+    finally:
+        cmds.undoInfo(closeChunk=True)
     return renamed
 
 

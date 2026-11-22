@@ -58,6 +58,7 @@ class MockCmds(types.ModuleType):
         }
         self.renames: list[tuple[str, str]] = []
         self.warnings: list[str] = []
+        self.undo_chunks: list[str] = []
         self.fail_renames: set[str] = set()
         self.control_parents: dict[str, str] = {}
 
@@ -173,6 +174,12 @@ class MockCmds(types.ModuleType):
     def warning(self, message):
         self.warnings.append(str(message))
 
+    def undoInfo(self, **kwargs):
+        if kwargs.get("openChunk"):
+            self.undo_chunks.append("open")
+        elif kwargs.get("closeChunk"):
+            self.undo_chunks.append("close")
+
     def select(self, *args, **kwargs):
         if args:
             self.selection = list(args[0]) if isinstance(args[0], (list, tuple)) else [args[0]]
@@ -209,6 +216,7 @@ class MockCmds(types.ModuleType):
         }
         self.renames.clear()
         self.warnings.clear()
+        self.undo_chunks.clear()
         self.fail_renames.clear()
         self.control_parents.clear()
 
@@ -336,6 +344,16 @@ class MayaUtilityTests(unittest.TestCase):
             ("|geo_01", "010"),
         ])
         self.assertEqual(len(result), 2)
+        self.assertEqual(cmds.undo_chunks, ["open", "close"])
+
+    def test_batch_undo_chunk_closes_when_a_rename_fails(self):
+        cmds.selection = ["|geo_01", "|pCube1"]
+        cmds.fail_renames.add("|pCube1")
+        cmds.ui["Variable_BtnGrp"]["select"] = 4
+
+        self.util.rename_selected()
+
+        self.assertEqual(cmds.undo_chunks, ["open", "close"])
 
     def test_zero_start_number_is_preserved_in_ui_config(self):
         cmds.ui["padding_tf"]["value1"] = 0
