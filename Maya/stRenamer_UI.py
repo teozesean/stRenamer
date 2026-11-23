@@ -82,9 +82,7 @@ def replace_name(*args) -> None:
 
 
 # -----------------------------------------------------------------------------
-# Window construction — importing this module only defines the UI.
-# Call show_rename_tool() to build the window the first time and to
-# show the existing window on later calls.
+# Window Construction
 # -----------------------------------------------------------------------------
 
 
@@ -209,7 +207,6 @@ def build_window() -> None:
 
 
 def show_rename_tool() -> None:
-    """Launch the Rename Tool: build a new window or show the existing one."""
     if cmds.window(WINDOW_NAME, exists=True):
         cmds.showWindow(WINDOW_NAME)
         rename_util.refresh_preview()
