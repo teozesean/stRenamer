@@ -102,7 +102,7 @@ def build_window() -> None:
     #-------------Create Window---------------#
     cmds.window(
         WINDOW_NAME,
-        title="Rename Tool",
+        title="stRenamer",
         s=False,
         mnb=True,
         mxb=False,
