@@ -631,6 +631,7 @@ class CallbackAndPreviewTests(unittest.TestCase):
 
     def test_ui_imports_and_all_callbacks_accept_maya_arguments(self):
         ui = importlib.import_module("stRenamer_UI")
+        ui.build_window()
         self.assertEqual(cmds.control_parents["refer_checkbox00"], "Search_row00")
         callback_names = [
             "reset_to_default",
@@ -650,9 +651,20 @@ class CallbackAndPreviewTests(unittest.TestCase):
     def test_preview_updates_both_fields(self):
         util = importlib.import_module("stRenamer_UTIL")
         ui = importlib.import_module("stRenamer_UI")
+        ui.build_window()
         ui.refresh_new_name()
         self.assertEqual(cmds.ui["Current_Name_Result"]["text"], "geo_01")
         self.assertEqual(cmds.ui["New_Name_Result"]["text"], "geo_01")
+
+    def test_import_builds_no_window_until_shown(self):
+        ui = importlib.import_module("stRenamer_UI")
+        # Importing the module must not build the window any more.
+        self.assertNotIn("refer_checkbox00", cmds.control_parents)
+        ui.build_window()
+        self.assertEqual(cmds.control_parents["refer_checkbox00"], "Search_row00")
+        # Showing again reuses the existing window without error.
+        ui.show_rename_tool()
+        self.assertEqual(cmds.control_parents["refer_checkbox00"], "Search_row00")
 
 
 if __name__ == "__main__":

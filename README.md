@@ -23,7 +23,7 @@ importlib.reload(rename_ui)
 rename_ui.show_rename_tool()
 ```
 
-Importing or reloading the UI module builds the window. `show_rename_tool()` shows the existing window and refreshes its preview.
+Importing or reloading the UI module no longer builds the window. `show_rename_tool()` builds it the first time (via `build_window()`) and shows the existing window on later calls, refreshing its preview either way.
 
 ## Hierarchy order
 
