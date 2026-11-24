@@ -1,10 +1,3 @@
-"""
-Clean utility module for the original Maya Rename Tool UI.
-
-This module reads and updates the original widget names and keeps Maya scene
-operations separate from UI layout code.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass
